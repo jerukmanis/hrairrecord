@@ -131,6 +131,9 @@ $Page->ListOptions->render("header", "left");
 <?php if ($Page->meteran_bulanini->Visible) { // meteran_bulanini ?>
         <th data-name="meteran_bulanini" class="<?= $Page->meteran_bulanini->headerCellClass() ?>"><div id="elh_air2406_meteran_bulanini" class="air2406_meteran_bulanini"><?= $Page->renderFieldHeader($Page->meteran_bulanini) ?></div></th>
 <?php } ?>
+<?php if ($Page->foto->Visible) { // foto ?>
+        <th data-name="foto" class="<?= $Page->foto->headerCellClass() ?>"><div id="elh_air2406_foto" class="air2406_foto"><?= $Page->renderFieldHeader($Page->foto) ?></div></th>
+<?php } ?>
 <?php
 // Render list options (header, right)
 $Page->ListOptions->render("header", "right");
@@ -243,6 +246,15 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
 <span id="el<?= $Page->RowCount ?>_air2406_meteran_bulanini" class="el_air2406_meteran_bulanini">
 <span<?= $Page->meteran_bulanini->viewAttributes() ?>>
 <?= $Page->meteran_bulanini->getViewValue() ?></span>
+</span>
+</td>
+    <?php } ?>
+    <?php if ($Page->foto->Visible) { // foto ?>
+        <td data-name="foto"<?= $Page->foto->cellAttributes() ?>>
+<span id="el<?= $Page->RowCount ?>_air2406_foto" class="el_air2406_foto">
+<span>
+<?= GetFileViewTag($Page->foto, $Page->foto->getViewValue(), false) ?>
+</span>
 </span>
 </td>
     <?php } ?>

@@ -589,7 +589,7 @@ class Air2406List extends Air2406
         $this->unit->setVisibility();
         $this->meteran_bulansebelumnya->setVisibility();
         $this->meteran_bulanini->setVisibility();
-        $this->foto->Visible = false;
+        $this->foto->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Set lookup cache
@@ -1250,6 +1250,7 @@ class Air2406List extends Air2406
             $option->add("unit", $this->createColumnOption("unit"));
             $option->add("meteran_bulansebelumnya", $this->createColumnOption("meteran_bulansebelumnya"));
             $option->add("meteran_bulanini", $this->createColumnOption("meteran_bulanini"));
+            $option->add("foto", $this->createColumnOption("foto"));
         }
 
         // Set up options default
@@ -1605,6 +1606,19 @@ class Air2406List extends Air2406
             $this->meteran_bulanini->ViewValue = FormatNumber($this->meteran_bulanini->ViewValue, $this->meteran_bulanini->formatPattern());
             $this->meteran_bulanini->ViewCustomAttributes = "";
 
+            // foto
+            if (!EmptyValue($this->foto->Upload->DbValue)) {
+                $this->foto->ImageWidth = 400;
+                $this->foto->ImageHeight = 0;
+                $this->foto->ImageAlt = $this->foto->alt();
+                $this->foto->ImageCssClass = "ew-image";
+                $this->foto->ViewValue = $this->id->CurrentValue;
+                $this->foto->IsBlobImage = IsImageFile(ContentExtension($this->foto->Upload->DbValue));
+            } else {
+                $this->foto->ViewValue = "";
+            }
+            $this->foto->ViewCustomAttributes = "";
+
             // id
             $this->id->LinkCustomAttributes = "";
             $this->id->HrefValue = "";
@@ -1629,6 +1643,30 @@ class Air2406List extends Air2406
             $this->meteran_bulanini->LinkCustomAttributes = "";
             $this->meteran_bulanini->HrefValue = "";
             $this->meteran_bulanini->TooltipValue = "";
+
+            // foto
+            $this->foto->LinkCustomAttributes = "";
+            if (!empty($this->foto->Upload->DbValue)) {
+                $this->foto->HrefValue = GetFileUploadUrl($this->foto, $this->id->CurrentValue);
+                $this->foto->LinkAttrs["target"] = "";
+                if ($this->foto->IsBlobImage && empty($this->foto->LinkAttrs["target"])) {
+                    $this->foto->LinkAttrs["target"] = "_blank";
+                }
+                if ($this->isExport()) {
+                    $this->foto->HrefValue = FullUrl($this->foto->HrefValue, "href");
+                }
+            } else {
+                $this->foto->HrefValue = "";
+            }
+            $this->foto->ExportHrefValue = GetFileUploadUrl($this->foto, $this->id->CurrentValue);
+            $this->foto->TooltipValue = "";
+            if ($this->foto->UseColorbox) {
+                if (EmptyValue($this->foto->TooltipValue)) {
+                    $this->foto->LinkAttrs["title"] = $Language->phrase("ViewImageGallery");
+                }
+                $this->foto->LinkAttrs["data-rel"] = "air2406_x" . $this->RowCount . "_foto";
+                $this->foto->LinkAttrs->appendClass("ew-lightbox");
+            }
         }
 
         // Call Row Rendered event
