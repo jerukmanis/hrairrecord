@@ -1,0 +1,11 @@
+{
+    "name": "holis-regency-air-record-all",
+    "version": "18.7.0",
+    "description": "holis regency air record all",
+    "license": "SEE LICENSE IN LICENSE.md",
+    "private": true,
+    "dependencies": {},
+    "engines": {
+        "node": ">=16"
+    }
+}
